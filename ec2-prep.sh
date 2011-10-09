@@ -83,7 +83,7 @@ EOF
 # Install Tor's GPG key
 echo "Installing Tor's gpg key...";
 gpg --keyserver keys.gnupg.net --recv 886DDD89
-gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
+gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | sudo apt-key add -
 
 # Install Tor
 echo "Installing Tor...";
