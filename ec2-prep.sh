@@ -12,6 +12,8 @@ CONFIG_FILE="/etc/tor/torrc";
 RESERVATION="`curl -m 5 http://169.254.169.254/latest/meta-data/reservation-id | sed 's/-//'`";
 PERIODIC="/etc/apt/apt.conf.d/10periodic"
 UNATTENDED_UPGRADES="/etc/apt/apt.conf.d/50unattended-upgrades"
+IPTABLES_RULES="/etc/iptables.rules"
+NETWORK="/etc/network/interfaces"
 
 # Make sure that we are root
 if [ "$USER" != "root" ]; then
@@ -58,6 +60,31 @@ Unattended-Upgrade::Allowed-Origins {
 Unattended-Upgrade::Automatic-Reboot "true";
 EOF
 
+# Configure iptables to redirect traffic to port 443 to port 9001
+# instead, and make that configuration stick.
+echo "Configuring iptables..."
+cat << EOF > $IPTABLES_RULES
+*nat
+:PREROUTING ACCEPT [0:0]
+:POSTROUTING ACCEPT [77:6173]
+:OUTPUT ACCEPT [77:6173]
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 443 -j REDIRECT --to-ports
+9001 
+COMMIT
+EOF
+
+mv /etc/network/interfaces /etc/network/interfaces.bkp
+cat << EOF > $NETWORK
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+auto eth0
+iface eth0 inet dhcp
+  pre-up iptables-restore < /etc/iptables.rules
+EOF
+
 # Choose how to configure Tor
 case "$CONFIG" in
    "bridge" ) echo "selecting $CONFIG config...";;
@@ -102,6 +129,7 @@ cat << EOF > $CONFIG_FILE
 Nickname ec2$CONFIG$RESERVATION
 SocksPort 0
 ORPort 443
+ORListenAddress 0.0.0.0:9001
 BridgeRelay 1
 AccountingStart week 1 10:00
 AccountingMax 10 GB
@@ -116,6 +144,7 @@ cat << EOF > $CONFIG_FILE
 Nickname ec2$CONFIG$RESERVATION
 SocksPort 0
 ORPort 443
+ORListenAddress 0.0.0.0:9001
 BridgeRelay 1
 PublishServerDescriptor 0
 AccountingStart week 1 10:00
@@ -131,6 +160,7 @@ cat << EOF > $CONFIG_FILE
 Nickname ec2$CONFIG$RESERVATION
 SocksPort 0
 ORPort 443
+ORListenAddress 0.0.0.0:9001
 DirPort 80
 AccountingStart week 1 10:00
 AccountingMax 10 GB
