@@ -59,25 +59,26 @@ echo ${aki}
 
 iid=$(ec2-run-instances --region ${region} --instance-type t1.micro --key ${keypair}  ${ami} --group  tor-cloud-build| awk {'print $2'} | grep i-)
 echo ${iid}
-echo "sleeping for 45 seconds..."
+echo "After running ec2-run-instances, sleep for 45 seconds..."
 sleep 45
 zone=$(ec2-describe-instances --region ${region} $iid | awk '-F\t' '$2 == iid { print $12 }' iid=${iid} )
-echo "sleeping for 20 seconds..."
+echo "After running ec2-describe-instances, sleep for 20 seconds..."
 echo ${zone}
-echo "sleeping for 20 seconds..."
 sleep 20
 host=$(ec2-describe-instances --region ${region} $iid | awk '-F\t' '$2 == iid { print $4 }' iid=${iid} )
 echo ${host}
-echo "sleeping for 20 seconds..."
+echo "After running ec2-describe-instances again, sleep for 20 seconds..."
 sleep 20
 
 # create and attached ebs volume to be used for snapshot
 vol=$(ec2-create-volume --size 4 --region ${region} --availability-zone ${zone} | awk {'print $2'})
 
+echo "After creating the volume, sleep for 20 seconds..."
 sleep 20
 
 ec2-attach-volume --instance ${iid} --region ${region} --device /dev/sdh ${vol}
 
+echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && wget http://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-uec-i386.tar.gz -O ubuntu-10.04-server-uec-i386.tar.gz && tar -Sxvzf /mnt/ubuntu-10.04-server-uec-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-uec-i386.img /mnt/src && sudo mkfs.ext4 -F -L uec-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
@@ -130,6 +131,7 @@ ec2-register --region ${region} --snapshot ${snap} --architecture=i386 --kernel=
 
 # cleanup
 ec2-detach-volume --region ${region}  ${vol}
+echo "After detaching the volume, but before terminating it, sleep 20 seconds..."
 sleep 20
 ec2-terminate-instances --region ${region}  ${iid}
 
