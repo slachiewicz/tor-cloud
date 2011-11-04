@@ -1,5 +1,6 @@
 # Copyright (c) 2011 Expression Technologies <info@expressiontech.org>
 # Copyright (c) 2011 SiNA <sina@expressiontech.org>
+# Copyright (c) 2011 The Tor Project, Inc
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -15,8 +16,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
 # USA
-
-# Tor CLoud Servers - http://expressiontech.org/torcloud
+#
+# Tor Cloud is developed and maintained by partnership between
+# ExpressionTech and The Tor Project.
+#
 # Bundle and publish instance of canonical AMI Ubuntu 10.04 LTS (Lucid Lynx),
 # modified to run as a Tor bridge relay, private relay or middle realy on Amazon EC2
 
@@ -124,10 +127,7 @@ NOW=$(date +"%m-%d-%Y")
 RANDOM=$(echo `</dev/urandom tr -dc A-Za-z0-9 | head -c8`)
 
 # Finally register and publish the image
-ec2-register --region ${region} --snapshot ${snap} --architecture=i386 --kernel=${aki} --name "Tor-Cloud-EC2-${rel}-${region}-${NOW}-${RANDOM}" --description "Tor Cloud Server - [bridge] - Ubuntu 10.04.3 LTS [Lucid Lynx] - [${region}] by: expressiontech.org/torcloud"
-
-# Finally register and publish the image
-#echo "ec2-register --region ${region}  --snapshot ${snap} --architecture=i386 --kernel=${aki} --name \"Tor-Cloud-EC2-${rel}-${region}-${NOW}-${RANDOM}\" --description \"Tor Cloud Server - [bridge] - Ubuntu 10.04.3 LTS [Lucid Lynx] - [${region}] by: expressiontech.org/torcloud\""
+ec2-register --region ${region} --snapshot ${snap} --architecture=i386 --kernel=${aki} --name "Tor-Cloud-EC2-${rel}-${region}-${NOW}-${RANDOM}" --description "Tor Cloud Server - [bridge] - Ubuntu 10.04.3 LTS [Lucid Lynx] - [${region}]"
 
 # cleanup
 ec2-detach-volume --region ${region}  ${vol}
