@@ -92,6 +92,9 @@ ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ub
 # this is our startup file that loads tor-prep.sh on first boot
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/rc.local -O /mnt/src/etc/rc.local"
 
+# Update the rc.local file with the type of relay we want to create (bridge, private-bridge or relay)
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey}  ubuntu@${host} -q -v -t "sudo sed -i s/type/$1/ /mnt/src/etc/rc.local"
+
 # this script is responsible for installation and configuration of the Tor application
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/ec2-prep.sh -O /mnt/src/etc/ec2-prep.sh"
 
