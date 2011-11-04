@@ -87,10 +87,10 @@ ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ub
 #ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ~/keys/tor-cloud.pem ubuntu@${host} -q -t "gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt && cat /mnt/verify.txt | grep Good | awk {'print $2'})"
 
 # this is our startup file that loads tor-prep.sh on first boot
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://raw.github.com/inf0/Tor-Cloud/master/rc.local -O /mnt/src/etc/rc.local"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/rc.local -O /mnt/src/etc/rc.local"
 
 # this script is responsible for installation and configuration of the Tor application
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://raw.github.com/inf0/Tor-Cloud/master/ec2-prep.sh -O /mnt/src/etc/ec2-prep.sh"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/ec2-prep.sh -O /mnt/src/etc/ec2-prep.sh"
 
 # fix permissions
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo chmod +x /mnt/src/etc/ec2-prep.sh && sudo chmod +x /mnt/src/etc/ec2-prep.sh"
