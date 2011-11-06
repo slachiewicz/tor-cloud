@@ -52,8 +52,8 @@
 	      <div class="deco first"></div>
 	      <h2>Tor Cloud on Amazon EC2</h2>
 	    </hgroup>
-	<p>The Tor Cloud is a user friendly way of deploying bridges and
-	relays to help users in countries securely access the Internet,
+	<p>The Tor Cloud is a user friendly way of deploying bridges
+	to help users in countries securely access the Internet,
 	free of censorship. By donating your bandwidth to the Tor
         Network, you improve the safety and speed at which users
         can access the Internet. <a href="https://www.torproject.org"
@@ -65,7 +65,7 @@
 	    cost-effective terms. The Tor network can always benefit from
 	    more volunteer bandwidth. <a href="http://aws.amazon.com/ec2/"
 	    target="_blank">Learn more about Amazon EC2 &raquo;</a></p>
-	<p>Setting up a Tor bridge or relay in the Amazon cloud is simple and
+	<p>Setting up a Tor bridge in the Amazon cloud is simple and
 	will only take you a couple of minutes. The images have all been
 	configured with automatic package updates and port forwarding, so you
 	do not have to worry about Tor not working or lacking security updates.
@@ -92,7 +92,7 @@
 	      <div class="deco first"></div>
 	      <h2>Sign up for an AWS account</h2>
 	    </hgroup>
-	    <p>Before you can set up a bridge or a relay in the Amazon cloud,<br>
+	    <p>Before you can set up a bridge in the Amazon cloud,<br>
 	    you need to sign up for an <i>Amazon Web Services (AWS)</i> account.
 	    <a class="signup"
 	    href="https://aws-portal.amazon.com/gp/aws/developer/registration"
@@ -103,9 +103,9 @@
 	     <div class="deco"></div>
 	     <h2>Select type of relay and its location</h2>
 	     </hgroup>
-	    <p>The images below have been configured as private bridges, public
-	    bridges, and non-exit relays. The cost of running a bridge or a relay in the
-	    Amazon Cloud depends on a number of factors, including the region you decide to
+	    <p>The images below have been configured as public bridges.
+	    The cost of running a bridge in the Amazon Cloud depends on
+	    a number of factors, including the region you decide to
 	    put it in. See <a href="http://aws.amazon.com/ec2/pricing/">Amazon EC2
 	    Pricing</a> for more information.</p>
 	    
@@ -117,24 +117,6 @@
 	    <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=eu-west-1#launchAmi=ami-9c99aae8" target="_blank">eu-west-1<br>Ireland</a></li>
 	    <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=ap-southeast-1#launchAmi=ami-e8fe85ba" target="_blank">ap-southeast-1<br>Singapore</a></li>
     	    </ul>
-
-            <p><b>Private bridge:</b></p>
-            <ul class="region-nav">
-            <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-east-1#launchAmi=ami-11af6d78" target="_blank">us-east-1<br>Virginia</a></li>
-            <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-west-1#launchAmi=ami-4bf9a40e" target="_blank">us-west-1<br>N. California</a></li>
-            <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=ap-northeast-1#launchAmi=ami-3807b239" target="_blank">ap-northeast-1<br>Tokyo</a></li>
-            <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=eu-west-1#launchAmi=ami-9c99aae8" target="_blank">eu-west-1<br>Ireland</a></li>
-            <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=ap-southeast-1#launchAmi=ami-e8fe85ba" target="_blank">ap-southeast-1<br>Singapore</a></li>
-            </ul>
-
-            <p><b>Non-exit relay:</b></p>
-            <ul class="region-nav">
-            <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-east-1#launchAmi=ami-11af6d78" target="_blank">us-east-1<br>Virginia</a></li>
-            <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-west-1#launchAmi=ami-4bf9a40e" target="_blank">us-west-1<br>N. California</a></li>
-            <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=ap-northeast-1#launchAmi=ami-3807b239" target="_blank">ap-northeast-1<br>Tokyo</a></li>
-            <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=eu-west-1#launchAmi=ami-9c99aae8" target="_blank">eu-west-1<br>Ireland</a></li>
-            <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=ap-southeast-1#launchAmi=ami-e8fe85ba" target="_blank">ap-southeast-1<br>Singapore</a></li>
-            </ul>
 
 	    <hgroup>
 	      <div class="deco"></div>
@@ -176,38 +158,17 @@
 	</hgroup>
 
 	<p>
-	<a href="#WhatIsTheDifference">1. What is the difference between a bridge and a relay?</a><br>
-	<a href="#HowMuchDoesItCost">2. How much does it cost?</a><br>
-	<a href="#ICantConnect">3. I can't connect as user <i>root</i>, what's wrong?</a><br>
-	<a href="#CanISetUpAnExit">4. Can I set up an exit relay?</a><br>
-	<a href="#WhatIsInTheConfig">5. What's in the Tor configuration file?</a><br>
-	<a href="#AutomaticUpdates">6. Will the images automatically download and install package updates?</a><br>
-        <a href="#NewImages">7. Will you let me know when you publish new images?</a><br>
-	<a href="#ReportBugs">8. Where do I report a bug I am encountering?</a><br>
-	<a href="#IRC">9. Is there an IRC channel about Tor Cloud?</a><br>
-	<a href="#AnotherQuestion">10. I have a question that is not answered here, what do I do?</a>
+	<a href="#HowMuchDoesItCost">1. How much does it cost?</a><br>
+	<a href="#ICantConnect">2. I can't connect as user <i>root</i>, what's wrong?</a><br>
+	<a href="#WhatIsInTheConfig">3. What's in the Tor configuration file?</a><br>
+	<a href="#AutomaticUpdates">4. Will the images automatically download and install package updates?</a><br>
+        <a href="#NewImages">5. Will you let me know when you publish new images?</a><br>
+	<a href="#ReportBugs">6. Where do I report a bug I am encountering?</a><br>
+	<a href="#IRC">7. Is there an IRC channel about Tor Cloud?</a><br>
+	<a href="#AnotherQuestion">8. I have a question that is not answered here, what do I do?</a>
 	</p>
 
-	<p><b><a class="anchor" href="#WhatIsTheDifference">1. What is the difference between a bridge and a relay?</a></b><br>
-	A bridge is a hidden relay used only to forward traffic on to the rest
-	of the Tor network. A bridge will usually see less traffic than a relay, and
-	thus consume less bandwidth. This is something to consider if you're worried
-	about the cost.
-	<br><br>
-	When you set up a bridge, we will automatically distribute the bridge
-        address (that is, the IP address and the port Tor is listening on) for
-        you via email and on <a
-	href="https://bridges.torproject.org">bridges.torproject.org</a>. If you only
-	want a specific group of people (such as close friends and family) to use the
-	bridge, set up a private bridge instead. 
-	<br><br>
-	A non-exit relay is a public server used only to forward traffic on to
-	the rest of the Tor network. No traffic will ever exit from your relay.
-	A relay will usually see more traffic than a bridge, so please keep
-	this in mind if you're worried about the cost.
-	</p>
-
-        <p><b><a class="anchor" href="#HowMuchDoesItCost">2. How much does it cost?</a></b><br>
+        <p><b><a class="anchor" href="#HowMuchDoesItCost">1. How much does it cost?</a></b><br>
 	There is no fee charged by the Tor Project for you to run a Tor Cloud
 	image. Amazon does, however, charge instances according to their <a
 	href="http://aws.amazon.com/ec2/pricing/">pricing</a>.
@@ -219,31 +180,28 @@
 	let us know how much you end up paying each month so that we can update this
 	FAQ.</p>
 
-	<p><b><a class="anchor" href="#ICantConnect">3. I can't connect as user <i>root</i>, what's wrong?</a></b><br>
+	<p><b><a class="anchor" href="#ICantConnect">2. I can't connect as user <i>root</i>, what's wrong?</a></b><br>
 	When you right-click and choose <i>connect</i>, AWS will suggest that
 	you use <i>root</i> as the username. This is wrong. You need to use
 	<i>ubuntu</i> as the username if you wish to connect to your server via
 	SSH.</p>
 
-	<p><b><a class="anchor" href="#CanISetUpAnExit">4. Can I set up an exit relay?</a></b><br>
-	Answer here.</p>
-
-	<p><b><a class="anchor" href="#WhatIsInTheConfig">5. What's in the Tor configuration file?</a></b><br>
+	<p><b><a class="anchor" href="#WhatIsInTheConfig">3. What's in the Tor configuration file?</a></b><br>
 	Answer here.</p>
 	
-	<p><b><a class="anchor" href="#AutomaticUpdates">6. Will the images automatically download and install package updates?</a></b><br>
+	<p><b><a class="anchor" href="#AutomaticUpdates">4. Will the images automatically download and install package updates?</a></b><br>
 	Yes, the images have all been configured with the <a href="https://help.ubuntu.com/community/AutomaticSecurityUpdates"><i>unattended-upgrades</i></a> package. This means that your system will automatically download and install updates.</p>
 
-	<p><b><a class="anchor" href="#NewImages">7. Will you let me know when you publish new images?</a></b><br>
+	<p><b><a class="anchor" href="#NewImages">5. Will you let me know when you publish new images?</a></b><br>
 	New cloud images will be announced on <a href="https://twitter.com/torproject">Twitter</a>, <a href="https://identi.ca/torproject">identi.ca</a>, <a href="https://blog.torproject.org">our blog</a> and on the <a href="https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-talk">tor-talk</a> mailing list.</p>
 
-	<p><b><a class="anchor" href="#ReportBugs">8. Where do I report a bug I am encountering?</a></b><br>
+	<p><b><a class="anchor" href="#ReportBugs">6. Where do I report a bug I am encountering?</a></b><br>
 	If you think the bug you have found is specific to the Tor Cloud images we provide, please <a href="https://trac.torproject.org">file a bug</a> or send an email to <i>community-support AT lists.torproject.org</i>.</p>
 
-	<p><b><a class="anchor" href="#IRC">9. Is there an IRC channel about Tor Cloud?</a></b><br>
+	<p><b><a class="anchor" href="#IRC">7. Is there an IRC channel about Tor Cloud?</a></b><br>
 	Yes, simply join #tor on irc.oftc.net and ask your question. It may take a while before we get back to you, so please be patient.</p>
 
-	<p><b><a class="anchor" href="#AnotherQuestion">10. I have a question that is not answered here, what do I do?</a></b><br>
+	<p><b><a class="anchor" href="#AnotherQuestion">8. I have a question that is not answered here, what do I do?</a></b><br>
 	Please send an email to <i>community-support AT lists.torproject.org</i> and we'll make sure it gets added to the list.</p>
 </div>
 
