@@ -24,8 +24,8 @@
 # modified to run as a Tor bridge relay, private relay or middle realy on Amazon EC2
 
 # Define your Amazon credentials for ec2-api-tools to function
-export EC2_PRIVATE_KEY=/home/architect/pk.cert
-export EC2_CERT=/home/architect/cert.pem
+export EC2_PRIVATE_KEY=/path/to/pk.cert
+export EC2_CERT=/path/to/cert.pem
 
 
 relaytype=$1;
@@ -51,7 +51,7 @@ fi
 echo ${region}
 echo ${arch}
 
-qurl=http://uec-images.ubuntu.com/query/lucid/server/released.current.txt
+qurl=https://uec-images.ubuntu.com/query/lucid/server/released.current.txt
 curl --silent ${qurl} | grep ebs
 ami=$(curl --silent "${qurl}" | awk '-F\t' '$5 == "ebs" && $6 == arch && $7 == region { print $8 }' arch=$arch region=$region )
 aki=$(curl --silent "${qurl}" | awk '-F\t' '$5 == "ebs" && $6 == arch && $7 == region { print $9 }' arch=$arch region=$region )
@@ -84,7 +84,7 @@ ec2-attach-volume --instance ${iid} --region ${region} --device /dev/sdh ${vol}
 echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && wget http://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-uec-i386.tar.gz -O ubuntu-10.04-server-uec-i386.tar.gz && tar -Sxvzf /mnt/ubuntu-10.04-server-uec-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-uec-i386.img /mnt/src && sudo mkfs.ext4 -F -L uec-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && wget https://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz -O ubuntu-10.04-server-cloudimg-i386.tar.gz && tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-uec-i386.img /mnt/src && sudo mkfs.ext4 -F -L uec-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
 
 # TODO: fix GPG verification, exit on failed verification
 #ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ~/keys/tor-cloud.pem ubuntu@${host} -q -t "gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt && cat /mnt/verify.txt | grep Good | awk {'print $2'})"
