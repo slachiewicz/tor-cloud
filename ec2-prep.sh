@@ -68,8 +68,7 @@ cat << EOF > $IPTABLES_RULES
 :PREROUTING ACCEPT [0:0]
 :POSTROUTING ACCEPT [77:6173]
 :OUTPUT ACCEPT [77:6173]
--A PREROUTING -i eth0 -p tcp -m tcp --dport 443 -j REDIRECT --to-ports
-9001 
+-A PREROUTING -i eth0 -p tcp -m tcp --dport 443 -j REDIRECT --to-ports 9001 
 COMMIT
 EOF
 
