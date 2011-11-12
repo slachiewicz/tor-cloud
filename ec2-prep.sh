@@ -184,10 +184,9 @@ fi
 
 # XXX TODO
 # Generally, we'll want to rm /var/lib/tor/* and remove all state from the system
-#echo "Restarting Tor...";
-#/etc/init.d/tor restart
-#sudo update-rc.d tor enable
-#echo "echo 'Tor Cloud Starting...'" > /etc/ec2-prep.sh
+echo "Restarting Tor...";
+/etc/init.d/tor restart
+update-rc.d tor enable
 
 # We're done; tell the user and then reboot the system
 echo "Done configuring the system, will reboot"
