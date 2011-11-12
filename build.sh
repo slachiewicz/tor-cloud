@@ -84,7 +84,7 @@ ec2-attach-volume --instance ${iid} --region ${region} --device /dev/sdh ${vol}
 echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS && wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && wget https://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz -O ubuntu-10.04-server-cloudimg-i386.tar.gz && tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L uec-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS && wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && wget https://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz -O ubuntu-10.04-server-cloudimg-i386.tar.gz && tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
 
 # TODO: fix GPG verification, exit on failed verification
 #ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ~/keys/tor-cloud.pem ubuntu@${host} -q -t "gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt"
