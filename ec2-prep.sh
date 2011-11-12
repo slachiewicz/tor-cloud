@@ -21,17 +21,13 @@ echo "root required; re-run with sudo";
   exit 1;
 fi
 
-# Install and configure unattended-upgrades. The system will
-# automatically download, install and configure all packages, and reboot
-# if necessary.
-echo "Installing unattended-upgrades..."
-aptitude install unattended-upgrades
+# Configure unattended-upgrades. The system will automatically download,
+# install and configure all packages, and reboot if necessary.
+echo "Configuring the unattended-upgrades package..."
 
 # Back up the original configuration
 mv /etc/apt/apt.conf.d/10periodic /etc/apt/apt.conf.d/10periodic.bkp
 mv /etc/apt/apt.conf.d/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades.bkp
-
-echo "Configuring the unattended-upgrades package..."
 
 # Choose what to upgrade in 10periodic
 cat << EOF > $PERIODIC
