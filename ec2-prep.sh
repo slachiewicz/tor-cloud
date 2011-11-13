@@ -21,6 +21,11 @@ echo "root required; re-run with sudo";
   exit 1;
 fi
 
+# Get the latest package updates
+echo "Updating the system..."
+aptitude update
+aptitude -y safe-upgrade
+
 # Configure unattended-upgrades. The system will automatically download,
 # install and configure all packages, and reboot if necessary.
 echo "Configuring the unattended-upgrades package..."
@@ -44,7 +49,7 @@ EOF
 cat << EOF > $UNATTENDED_UPGRADES
 // Automatically upgrade packages from these (origin, archive) pairs
 Unattended-Upgrade::Allowed-Origins {
-        "Ubuntu lucid";
+    "Ubuntu lucid";
 	"Ubuntu lucid-security";
 	"Ubuntu lucid-updates";
 	"Tor lucid";
@@ -109,9 +114,8 @@ gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
 
 # Install Tor
 echo "Installing Tor...";
-aptitude safe-upgrade -y
-apt-get -y update 
-apt-get -y install tor tor-geoipdb
+aptitude update
+aptitude -y install tor tor-geoipdb
 
 # Configure Tor
 echo "Configuring Tor...";
@@ -184,10 +188,8 @@ fi
 
 # XXX TODO
 # Generally, we'll want to rm /var/lib/tor/* and remove all state from the system
-echo "Restarting Tor...";
-/etc/init.d/tor restart
-update-rc.d tor enable
-
+#
 # We're done; tell the user and then reboot the system
 echo "Done configuring the system, will reboot"
+echo "Your system has been configured as a Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 reboot
