@@ -27,7 +27,6 @@
 export EC2_PRIVATE_KEY=/path/to/pk.cert
 export EC2_CERT=/path/to/cert.pem
 
-
 relaytype=$1;
 region=$2;
 sshkey=$3;
@@ -42,7 +41,6 @@ else
         echo "get the list of regions using the ec2-api-tools: ec2-describe-regions"
         exit
 fi
-
 
 # get the associated AMI (amazon image) and AKI (amazon kernel) values for 
 # the defined region & architecture. We only work with EBS instance types, as they are 
@@ -100,7 +98,7 @@ ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey}  u
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/ec2-prep.sh -O /mnt/src/etc/ec2-prep.sh"
 
 # fix permissions
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo chmod +x /mnt/src/etc/ec2-prep.sh && sudo chmod +x /mnt/src/etc/ec2-prep.sh"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo chmod +x /mnt/src/etc/ec2-prep.sh"
 
 # rsync the retrieved Ubuntu image to mounted Volume
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo rsync -aXHAS /mnt/src/ /mnt/target"
