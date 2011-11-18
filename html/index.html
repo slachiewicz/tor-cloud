@@ -49,14 +49,15 @@
 	  <div class="main" role="main">
 	    <hgroup>
 	      <div class="deco first"></div>
-	      <h2>Tor in the Amazon cloud</h2>
+	      <h2>Tor bridges in the Amazon cloud</h2>
 	    </hgroup>
 	<p>The Tor Cloud project gives you a user-friendly way of deploying
 	bridges to help users access an uncensored Internet. By setting up a
 	bridge, you donate bandwidth to the Tor network and help improve the
 	safety and speed at which users can access the Internet. <a
 		href="https://www.torproject.org"
-		target="_blank">Learn more about Tor &raquo;</a></p>
+		target="_blank">Learn more about Tor</a> and <a
+        href="https://www.torproject.org/docs/bridges.html.en">bridges &raquo;</a>.</p>
 	    <p>This project runs on the Amazon EC2 cloud computing
 	    platform, which powers Amazon.com and other major websites. Amazon
 	    EC2 allows users to launch their own virtual machines and computing
@@ -179,32 +180,48 @@
 	We have <a href="https://trac.torproject.org/projects/tor/ticket/3574#comment:4">estimated</a>
 	that running a bridge will cost around $30 a month.</p>
 
-	<p><b>2. I can't connect as user <i>root</i>, what's wrong?</b><br>
+    <p><b>2. The instance is running, what's next?</b><br>
+    You should not have to do anything once the instance is up and
+    running. Tor will start up as a bridge, confirm that it is reachable
+    from the outside, and then tell the bridge authority that it exists.
+    After that, the address for your bridge will be given out to
+    users.</p>
+
+    <p><b>3. How can I check if my bridge is running?</b><br>
+    There are two ways you can check to see if your bridge is running;
+    you can either log on to the instance and check
+    <em>/var/log/tor/log</em>, or you can use Tor and connect to your
+    own bridge. For instructions on how to use a bridge with Tor, see
+    the <a
+        href="https://www.torproject.org/docs/bridges.html.en">Tor
+        Project website</a>.</p>
+
+	<p><b>4. I can't connect as user <i>root</i>, what's wrong?</b><br>
 	When you right-click and choose <i>connect</i>, AWS will suggest that
 	you use <i>root</i> as the username. This is wrong. You need to use
 	<i>ubuntu</i> as the username if you wish to connect to your server via
 	SSH.</p>
 
-	<p><b>3. What's in the Tor configuration file?</b><br>
+	<p><b>5. What's in the Tor configuration file?</b><br>
 	The Tor configuration file that the images have been
 	configured with can be found <a href="https://cloud.torproject.org/torrc.txt">here</a>.</p>
 	
-	<p><b>4. Will the images automatically download and install package updates?</b><br>
+	<p><b>6. Will the images automatically download and install package updates?</b><br>
 	Yes, the images have all been configured with the <a href="https://help.ubuntu.com/community/AutomaticSecurityUpdates"><i>unattended-upgrades</i></a> package. This means that your system will automatically download and install updates.</p>
 
-	<p><b>5. Will you let me know when you publish new images?</b><br>
+	<p><b>7. Will you let me know when you publish new images?</b><br>
 	New cloud images will be announced on <a href="https://twitter.com/torproject">Twitter</a>, <a href="https://identi.ca/torproject">identi.ca</a>, <a href="https://blog.torproject.org">our blog</a> and on the <a href="https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-talk">tor-talk</a> mailing list.</p>
 
-	<p><b>6. Where do I report a bug I am encountering?</b><br>
+	<p><b>8. Where do I report a bug I am encountering?</b><br>
 	If you think the bug you have found is specific to the Tor Cloud
 	images we provide, please <a
 		href="https://trac.torproject.org">file a bug</a> or
 	send an email to <i>help AT rt.torproject.org</i>.</p>
 
-	<p><b>7. Is there an IRC channel where I can ask about Tor Cloud?</b><br>
+	<p><b>9. Is there an IRC channel where I can ask about Tor Cloud?</b><br>
 	Yes, simply join #tor on irc.oftc.net and ask your question. It may take a while before we get back to you, so please be patient.</p>
 
-	<p><b>8. I have a question that is not answered here, what do I do?</b><br>
+	<p><b>10. I have a question that is not answered here, what do I do?</b><br>
 	Please send an email to <i>help AT rt.torproject.org</i>.</p>
 </div>
 
