@@ -26,6 +26,16 @@
 	<script src="js/jquery.tools.min.js"></script>
 	<script src="js/jquery.nivo.slider.pack.js"></script>
 	<script src="js/libs/modernizr-2.0.6.min.js"></script>
+<!-- Prepare the layout for Javascript -->
+	<script type="text/javascript">
+	  $(function(){
+	    $('.setupguide').css('display', 'none');
+	    $('.slider-wrapper').css('display', 'block');
+	    $('#what_is_it').attr('id', 'null');
+	    $('#get_started').attr('id', 'null');
+	    $('#faq').attr('id', 'null');
+	  });
+	</script>
 
 </head>
 <body>
@@ -46,7 +56,7 @@
 	<div class="panes wrap">
 
 <!-- What it is -->
-	  <div class="main" role="main">
+	  <div id="what_is_it" class="main" role="main">
 	    <hgroup>
 	      <div class="deco first"></div>
 	      <h2>Tor bridges in the Amazon cloud</h2>
@@ -91,7 +101,7 @@
 	  </div>
 
 <!-- Get Started -->
-	  <div class="main" role="main">
+	  <div id="get_started" class="main" role="main">
 	    <hgroup>
 	      <div class="deco first"></div>
 	      <h2>Sign up</h2>
@@ -135,7 +145,9 @@
 	    management console. Simply follow the steps as illustrated below,
 	    and your bridge will up and running in just a couple of
 	    minutes:</p>
-	    <div class='slider-wrapper theme-orman'>
+
+<!-- Nivo Slider -->
+	    <div class='slider-wrapper theme-orman' style="display:none;">
 	      <div id='slider' class='nivoSlider'>
 		  <img src="img/tor-1.png" alt="" title="Click
 		  &quot;Continue&quot;. (No changes needed here.)"/>
@@ -164,10 +176,77 @@
 		  done! Congratulations!"/>
 	      </div>
 	    </div>
+
+<!-- Slider Fallback -->
+	    <div class="setupguide">
+	      <div class="step">
+		  <div class="deco"></div>
+		  <h2>Step 1</h2>
+		  <img src="img/tor-1.png"/>
+		  <div class="caption">
+		    Click "Continue". (No changes needed here.)
+		  </div>
+	      </div>
+
+	      <div class="step">
+		  <div class="deco"></div>
+		  <h2>Step 2</h2>
+		  <img src="img/tor-2.png"/>
+		  <div class="caption">
+		    Click "Continue". (No changes needed here.)
+		  </div>
+	      </div>
+
+	      <div class="step">
+		  <div class="deco"></div>
+		  <h2>Step 3</h2>
+		  <img src="img/step-3.png"/>
+		  <div class="caption">
+		    Click "Continue". (No changes needed here.)
+		  </div>
+	      </div>
+
+	      <div class="step">
+		  <div class="deco"></div>
+		  <h2>Step 4</h2>
+		  <img src="img/step-4.png"/>
+		  <div class="caption">
+		    Select "Create a new Key Pair", type "tor-cloud-servers" for key pair name, and click "Create & Download your Key Pair". You will need the key pair if you want to connect to your instance using SSH.
+		  </div>
+	      </div>
+
+	      <div class="step">
+		  <div class="deco"></div>
+		  <h2>Step 5</h2>
+		  <img src="img/step-5.png"/>
+		  <div class="caption">
+		    Select "Create a new Security Group", type "tor-cloud-servers" for Group Name and Group Description. You need to create two rules; HTTPS and SSH. Select "HTTPS" from the "Create a new rule" dropdown and click on "Add Rule". Do the same for SSH. Then click "Continue".
+		  </div>
+	      </div>
+
+	      <div class="step">
+		  <div class="deco"></div>
+		  <h2>Step 6</h2>
+		  <img src="img/step-6.png"/>
+		  <div class="caption">
+		    Click "Launch."
+		  </div>
+	      </div>
+
+	      <div class="step">
+		  <div class="deco"></div>
+		  <h2>Step 7</h2>
+		  <img src="img/step-7.png"/>
+		  <div class="caption">
+		    You're done! Congratulations!
+		  </div>
+	      </div>
+	    </div>
+
 	  </div>
 
 <!-- FAQ -->
-<div class="main" role="main">
+<div id="faq" class="main" role="main">
 	<hgroup>
 	<div class="deco first"></div>
 	<h2>Frequently Asked Questions (FAQ)</h2>
@@ -230,9 +309,9 @@
 	<footer>
 	  <div id="hbody">
 	    <p>The Tor Cloud project is developed and maintained by
-	    partnership between <a
+	    partnership between <a style="color:#885CA4"
 		    href="http://expressiontech.org">ExpressionTech</a>
-	    and <a href="https://www.torproject.org">The Tor Project</a>.<br />
+	    and <a style="color:#885CA4" href="https://www.torproject.org">The Tor Project</a>.<br />
 	    "Tor" and the "Onion Logo" are registered trademarks of The Tor Project, Inc.<br />
 	    Ubuntu is a registered trademark of Canonical Ltd.</p>
 

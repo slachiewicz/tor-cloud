@@ -243,6 +243,37 @@ a.signup {
   margin-top: 20px;
   }
 
+/* non-javascript 'Step-By-Step Guide' */
+.setupguide {
+  position: relative;
+  width:500px;
+  margin: 0px auto;
+  }
+
+.step {
+  text-align: center;
+  }
+
+.step h2 {
+  color: #885ca4;
+  font-size: 20px;
+  }
+
+.step img {
+  border: 1px solid #000;
+  margin: 15px auto 0px auto;
+  }
+
+.caption {
+  width: 438px;
+  padding: 20px 20px;
+  margin: -4px auto 0px auto;
+  text-align: left;
+  color: #fff;
+  font-size: 14px;
+  background: #222222;
+  }
+
 /* 'SUPPORT' SECTION */
 p.support {
   text-align: center;
