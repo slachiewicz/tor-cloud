@@ -263,9 +263,11 @@
         <p><b>1. How much does it cost?</b><br>
 	There is no fee charged by the Tor Project, Inc for you to run a
 	Tor Cloud image. Amazon does, however, charge instances
-	according to their <a href="http://aws.amazon.com/ec2/pricing/">pricing</a>.
-	We have <a href="https://trac.torproject.org/projects/tor/ticket/3574#comment:4">estimated</a>
-	that running a bridge will cost around $30 a month.</p>
+    according to their <a
+        href="http://aws.amazon.com/ec2/pricing/">pricing</a>. See
+    <em>How much does it cost?</em> on the <a
+        href="https://cloud.torproject.org/">front page</a> for more
+    information.</p>
 
     <p><b>2. The instance is running, what's next?</b><br>
     You should not have to do anything once the instance is up and
@@ -274,7 +276,17 @@
     After that, the address for your bridge will be given out to
     users.</p>
 
-    <p><b>3. How can I check if my bridge is running?</b><br>
+    <p><b>3. How do I find the address of my bridge?</b><br>
+    To find the address of your bridge, log on to the AWS Management
+    Console, find your instance, and click on it. The bottom half of the
+    page will show some details about the instance you have selected,
+    including <em>Public DNS</em>. If the AWS Management Console says
+    that the <em>Public DNS</em> for your instance is
+    <em>ec2-012-34-56-789.compute-1.amazonaws.com</em>, then you know that the IP
+    address is <em>012.34.56.789</em>. All of the bridges run on port 443, so the
+    address of your bridge is <em>012.34.56.789:443</em>.</p>
+
+    <p><b>4. How can I check if my bridge is running?</b><br>
     There are two ways you can check to see if your bridge is running;
     you can either log on to the instance and check
     <em>/var/log/tor/log</em>, or you can use Tor and connect to your
@@ -283,46 +295,46 @@
         href="https://www.torproject.org/docs/bridges.html.en">Tor
         Project website</a>.</p>
 
-	<p><b>4. I can't connect as user <i>root</i>, what's wrong?</b><br>
+	<p><b>5. I can't connect as user <i>root</i>, what's wrong?</b><br>
 	When you right-click and choose <i>connect</i>, AWS will suggest that
 	you use <i>root</i> as the username. This is wrong. You need to use
 	<i>ubuntu</i> as the username if you wish to connect to your server via
 	SSH.</p>
 
-    <p><b>5. How do I stop or terminate the instance?</b><br>
+    <p><b>6. How do I stop or terminate the instance?</b><br>
     To stop or terminate the instance, log on to the AWS Management
     Console, find your instance, right click on it and choose either
     "Stop" or "Terminate". "Stop" will just shutdown the instance as
     normal and will allow you to start it up again later. "Terminate"
     will delete the instance from your AWS account.</p>
 
-    <p><b>6. How do I change the IP address of my instance?</b><br>
+    <p><b>7. How do I change the IP address of my instance?</b><br>
     To change the IP address of your instance, log on to the AWS
     Management Console, find your instance, right click on it and choose
     "Stop". Once the instance has shut down completely, right click on
     it again and choose "Start". The instance will be assigned a new IP
     address when it starts up again.</p> 
 
-	<p><b>7. What's in the Tor configuration file?</b><br>
+	<p><b>8. What's in the Tor configuration file?</b><br>
 	The Tor configuration file that the images have been
 	configured with can be found <a href="https://cloud.torproject.org/torrc.txt">here</a>.</p>
 	
-	<p><b>8. Will the images automatically download and install package updates?</b><br>
+	<p><b>9. Will the images automatically download and install package updates?</b><br>
 	Yes, the images have all been configured with the <a href="https://help.ubuntu.com/community/AutomaticSecurityUpdates"><i>unattended-upgrades</i></a> package. This means that your system will automatically download and install updates.</p>
 
-	<p><b>9. Will you let me know when you publish new images?</b><br>
+	<p><b>10. Will you let me know when you publish new images?</b><br>
 	New cloud images will be announced on <a href="https://twitter.com/torproject">Twitter</a>, <a href="https://identi.ca/torproject">identi.ca</a>, <a href="https://blog.torproject.org">our blog</a> and on the <a href="https://lists.torproject.org/cgi-bin/mailman/listinfo/tor-talk">tor-talk</a> mailing list.</p>
 
-	<p><b>10. Where do I report a bug I am encountering?</b><br>
+	<p><b>11. Where do I report a bug I am encountering?</b><br>
 	If you think the bug you have found is specific to the Tor Cloud
 	images we provide, please <a
 		href="https://trac.torproject.org">file a bug</a> or
 	send an email to <i>help AT rt.torproject.org</i>.</p>
 
-	<p><b>11. Is there an IRC channel where I can ask about Tor Cloud?</b><br>
+	<p><b>12. Is there an IRC channel where I can ask about Tor Cloud?</b><br>
 	Yes, simply join #tor on irc.oftc.net and ask your question. It may take a while before we get back to you, so please be patient.</p>
 
-	<p><b>12. I have a question that is not answered here, what do I do?</b><br>
+	<p><b>13. I have a question that is not answered here, what do I do?</b><br>
 	Please send an email to <i>help AT rt.torproject.org</i>.</p>
 </div>
 
