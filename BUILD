@@ -37,6 +37,7 @@ images in the Amazon EC2 cloud.
 
       root@tor-build:~# ec2-describe-regions
       REGION  eu-west-1       ec2.eu-west-1.amazonaws.com
+      REGION  sa-east-1       ec2.sa-east-1.amazonaws.com
       REGION  us-east-1       ec2.us-east-1.amazonaws.com
       REGION  ap-northeast-1  ec2.ap-northeast-1.amazonaws.com
       REGION  us-west-2       ec2.us-west-2.amazonaws.com
@@ -54,6 +55,7 @@ images in the Amazon EC2 cloud.
     images for:
 
       root@tor-build:~# ec2-add-keypair --region us-east-1 tor-cloud-us-east-1 > keys/tor-cloud-us-east-1.pem
+      root@tor-build:~# ec2-add-keypair --region sa-east-1 tor-cloud-sa-east-1 > keys/tor-cloud-sa-east-1.pem
       root@tor-build:~# ec2-add-keypair --region us-west-1 tor-cloud-us-west-1 > keys/tor-cloud-us-west-1.pem
       root@tor-build:~# ec2-add-keypair --region us-west-2 tor-cloud-us-west-2 > keys/tor-cloud-us-west-2.pem
       root@tor-build:~# ec2-add-keypair --region eu-west-1 tor-cloud-eu-west-1 > keys/tor-cloud-eu-west-1.pem
