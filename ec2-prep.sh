@@ -218,10 +218,10 @@ yIJpnL6TsA5uFqUosz2rOPKeeDOtruSo490PTA==
 EOF
 apt-key add $GPGKEY
 
-# Install Tor
+# Install Tor and arm
 echo "Installing Tor...";
 aptitude update
-aptitude -y install tor tor-geoipdb
+aptitude -y install tor tor-geoipdb tor-arm
 
 # Configure Tor
 echo "Configuring Tor...";
