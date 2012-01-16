@@ -257,7 +257,7 @@ AccountingMax 10 GB
 
 # Running a bridge relay just passes data to and from the Tor network --
 # so it shouldn't expose the operator to abuse complaints.
-Exitpolicy reject *:*
+ExitPolicy reject *:*
 EOF
 fi
 
