@@ -112,7 +112,7 @@ EOF
 echo "Installing Tor's gpg key...";
 #gpg --keyserver keys.gnupg.net --recv 886DDD89
 #gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key add -
-cat << EOF > $TORKEY
+cat << EOF > $GPGKEY
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
