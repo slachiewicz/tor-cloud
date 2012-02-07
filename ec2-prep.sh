@@ -261,37 +261,6 @@ ExitPolicy reject *:*
 EOF
 fi
 
-if [ $CONFIG == "private-bridge" ]; then
-echo "Configuring Tor as a $CONFIG";
-cat << EOF > $CONFIG_FILE
-# Auto generated public Tor $CONFIG config file
-Nickname ec2$CONFIG$RESERVATION
-SocksPort 0
-ORPort 443
-ORListenAddress 0.0.0.0:9001
-BridgeRelay 1
-PublishServerDescriptor 0
-AccountingStart week 1 10:00
-AccountingMax 10 GB
-Exitpolicy reject *:*
-EOF
-fi
-
-if [ $CONFIG == "middle-relay" ]; then
-echo "Configuring Tor as a $CONFIG";
-cat << EOF > $CONFIG_FILE
-# Auto generated public Tor $CONFIG config file
-Nickname ec2$CONFIG$RESERVATION
-SocksPort 0
-ORPort 443
-ORListenAddress 0.0.0.0:9001
-DirPort 80
-AccountingStart week 1 10:00
-AccountingMax 10 GB
-Exitpolicy reject *:*
-EOF
-fi
-
 # XXX TODO
 # Generally, we'll want to rm /var/lib/tor/* and remove all state from the system
 #
