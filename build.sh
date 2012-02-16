@@ -82,11 +82,27 @@ ec2-attach-volume --instance ${iid} --region ${region} --device /dev/sdh ${vol}
 echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS && wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && wget https://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz -O ubuntu-10.04-server-cloudimg-i386.tar.gz && tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
+# Get the files we need
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz"
 
-# TODO: fix GPG verification, exit on failed verification
-#ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ~/keys/tor-cloud.pem ubuntu@${host} -q -t "gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt"
-#ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ~/keys/tor-cloud.pem ubuntu@${host} -q -t "grep 'BAD signature' verify.txt &> /dev/null && if [ `echo $?` = "0" ]; then echo 'Cannot verify the signature, stopping here...'; fi"
+# Verify the signature
+echo "Get the GPG key"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo gpg --homedir /root/.gnupg --keyserver keys.gnupg.net --recv-key 7DB87C81"
+
+echo "Try to verify the file"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo bash -c 'gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt'"
+
+echo "Check the return code"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo bash -c 'sudo grep Good /mnt/verify.txt'"
+
+echo "See if the hashes match. If all else fails, lock ourselves out of the instance"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then hashone=`grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` && hashtwo=`sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` && if [ $hashone != $hashtwo ]; then echo 'Could not verify signature, will lock you out of the instance' && sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'Could not verify signature, will lock you out of the instance' && sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
+
+# Set the correct permission for /mnt
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt"
+
+# If everything is ok, extract image and continue the build process
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
 
 # this is our startup file that loads tor-prep.sh on first boot
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/rc.local -O /mnt/src/etc/rc.local"
