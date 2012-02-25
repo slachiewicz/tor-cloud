@@ -87,7 +87,7 @@ ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ub
 
 # Verify the signature
 echo "Get the GPG key"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo gpg --homedir /root/.gnupg --keyserver keys.gnupg.net --recv-key 7DB87C81"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo gpg --keyserver keys.gnupg.net --recv-key 7DB87C81"
 
 echo "Try to verify the file"
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo bash -c 'gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt'"
