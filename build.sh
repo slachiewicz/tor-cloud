@@ -99,6 +99,7 @@ echo "See if the hashes match. If all else fails, lock ourselves out of the inst
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then hashone=`grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` && hashtwo=`sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` && if [ $hashone != $hashtwo ]; then echo 'Could not verify signature, will lock you out of the instance' && sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'Could not verify signature, will lock you out of the instance' && sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
 
 # Set the correct permission for /mnt
+echo "Verified the signature, continue with the build process"
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt"
 
 # If everything is ok, extract image and continue the build process
