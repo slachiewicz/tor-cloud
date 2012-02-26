@@ -85,6 +85,12 @@ sleep 20
 # Get the files we need
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz"
 
+# Debug
+echo "sha256sum in /mnt/SHA256SUMS"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'"
+echo "sha256sum of file"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'"
+
 # Verify the signature
 echo "Get the GPG key"
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo gpg --keyserver keys.gnupg.net --recv-key 7DB87C81"
@@ -93,10 +99,10 @@ echo "Try to verify the file"
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo bash -c 'gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt'"
 
 echo "Check the return code"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo bash -c 'sudo grep Good /mnt/verify.txt'"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo grep Good /mnt/verify.txt"
 
 echo "See if the hashes match. If all else fails, lock ourselves out of the instance"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then hashone=`grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` && hashtwo=`sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` && if [ $hashone != $hashtwo ]; then echo 'Hash in SHA256SUMS file does not match sha256sum of .tar.gz, will lock you out of the instance' && sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'No good signature in verify.txt, will lock you out of the instance' && sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then if [ `grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` != `sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` ]; then 'Hash in SHA256SUMS file does not match sha256sum of .tar.gz, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'No good signature in verify.txt, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
 
 # Set the correct permission for /mnt
 echo "Verified the signature, continue with the build process"
