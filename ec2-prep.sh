@@ -268,9 +268,6 @@ echo "Configuring Tor as a $CONFIG";
 cat << EOF > $CONFIG_FILE
 # Auto generated public Tor $CONFIG config file
 
-# A unique handle for your server.
-Nickname ec2$CONFIG$RESERVATION
-
 # Set "SocksPort 0" if you plan to run Tor only as a server, and not
 # make any local application connections yourself.
 SocksPort 0
