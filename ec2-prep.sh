@@ -259,6 +259,8 @@ AccountingMax 10 GB
 # so it shouldn't expose the operator to abuse complaints.
 ExitPolicy reject *:*
 EOF
+echo "Done configuring the system, will reboot"
+echo "Your system has been configured as a Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 fi
 
 if [ $CONFIG == "privatebridge" ]; then
@@ -296,12 +298,12 @@ AccountingMax 10 GB
 # so it shouldn't expose the operator to abuse complaints.
 ExitPolicy reject *:*
 EOF
+echo "Done configuring the system, will reboot"
+echo "Your system has been configured as a private Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 fi
 
 # XXX TODO
 # Generally, we'll want to rm /var/lib/tor/* and remove all state from the system
 #
 # We're done; tell the user and then reboot the system
-echo "Done configuring the system, will reboot"
-echo "Your system has been configured as a Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 reboot
