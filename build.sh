@@ -83,13 +83,7 @@ echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
 # Get the files we need
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && sudo wget https://uec-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz"
-
-# Debug
-echo "sha256sum in /mnt/SHA256SUMS"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'"
-echo "sha256sum of file"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://cloud-images.ubuntu.com/releases/10.04/release/SHA256SUMS && sudo wget https://cloud-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && sudo wget https://cloud-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz -O ubuntu-10.04-server-cloudimg-i386.tar.gz"
 
 # Verify the signature
 echo "Get the GPG key"
@@ -104,12 +98,9 @@ ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ub
 echo "See if the hashes match. If all else fails, lock ourselves out of the instance"
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then if [ `grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` != `sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` ]; then 'Hash in SHA256SUMS file does not match sha256sum of .tar.gz, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'No good signature in verify.txt, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
 
-# Set the correct permission for /mnt
+# Set the correct permission for /mnt, extract image and continue the build process
 echo "Verified the signature, continue with the build process"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt"
-
-# If everything is ok, extract image and continue the build process
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir src target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir /mnt/src /mnt/target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
 
 # this is our startup file that loads tor-prep.sh on first boot
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/rc.local -O /mnt/src/etc/rc.local"
