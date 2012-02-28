@@ -268,6 +268,9 @@ echo "Configuring Tor as a $CONFIG";
 cat << EOF > $CONFIG_FILE
 # Auto generated public Tor $CONFIG config file
 
+# A unique handle for your server.
+Nickname ec2priv$RESERVATION
+
 # Set "SocksPort 0" if you plan to run Tor only as a server, and not
 # make any local application connections yourself.
 SocksPort 0
@@ -279,11 +282,15 @@ ORPort 443
 # advertise 443 but bind to 9001).
 ORListenAddress 0.0.0.0:9001
 
-# Start Tor as a bridge.
+# Start Tor as a private bridge.
 BridgeRelay 1
-
-# This is a private bridge.
 PublishServerDescriptor 0
+
+# Never send or receive more than 10GB of data per week. The accounting
+# period runs from 10 AM on the 1st day of the week (Monday) to the same
+# day and time of the next week.
+AccountingStart week 1 10:00
+AccountingMax 10 GB
 
 # Running a bridge relay just passes data to and from the Tor network --
 # so it shouldn't expose the operator to abuse complaints.
