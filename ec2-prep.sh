@@ -285,12 +285,6 @@ BridgeRelay 1
 # This is a private bridge.
 PublishServerDescriptor 0
 
-# Never send or receive more than 10GB of data per week. The accounting
-# period runs from 10 AM on the 1st day of the week (Monday) to the same
-# day and time of the next week.
-AccountingStart week 1 10:00
-AccountingMax 10 GB
-
 # Running a bridge relay just passes data to and from the Tor network --
 # so it shouldn't expose the operator to abuse complaints.
 ExitPolicy reject *:*
