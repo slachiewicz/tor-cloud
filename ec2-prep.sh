@@ -261,6 +261,7 @@ ExitPolicy reject *:*
 EOF
 echo "Done configuring the system, will reboot"
 echo "Your system has been configured as a Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
+reboot
 fi
 
 if [ $CONFIG == "privatebridge" ]; then
@@ -298,10 +299,11 @@ ExitPolicy reject *:*
 EOF
 echo "Done configuring the system, will reboot"
 echo "Your system has been configured as a private Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
+reboot
 fi
 
 # XXX TODO
 # Generally, we'll want to rm /var/lib/tor/* and remove all state from the system
 #
 # We're done; tell the user and then reboot the system
-reboot
+#reboot
