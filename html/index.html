@@ -134,18 +134,29 @@
         Console. See <em>How much does             it cost?</em> on the <a
             href="https://cloud.torproject.org/">front page</a> for
         information about pricing.</p>
-    <br>
+        <br><h3>Normal bridges</h3>
 	    <ul class="region-nav">
 	    <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-east-1#launchAmi=ami-302af859" target="_blank">us-east-1<br>Virginia</a></li>
 	    <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-west-1#launchAmi=ami-85cd94c0" target="_blank">us-west-1<br>N. California</a></li>
         <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-west-2#launchAmi=ami-4a1f927a" target="_blank">us-west-2<br>Oregon</a></li>
-        <br />
         <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=eu-west-1#launchAmi=ami-01231a75" target="_blank">eu-west-1<br>Ireland</a></li>
-	    <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=ap-northeast-1#launchAmi=ami-c60eb8c7" target="_blank">ap-northeast-1<br>Tokyo</a></li>
-	    <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=ap-southeast-1#launchAmi=ami-02afeb50" target="_blank">ap-southeast-1<br>Singapore</a></li>
         <br />
+        <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=ap-northeast-1#launchAmi=ami-c60eb8c7" target="_blank">ap-northeast-1<br>Tokyo</a></li>
+	    <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=ap-southeast-1#launchAmi=ami-02afeb50" target="_blank">ap-southeast-1<br>Singapore</a></li> 
         <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=sa-east-1#launchAmi=ami-c06cb3dd" target="_blank">sa-east-1<br>Sao Paulo</a></li>
-    	</ul>
+        </ul><br /><br />
+        <h3>Private bridges</h3>
+        <ul class="region-nav">
+        <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-east-1#launchAmi=ami-ce62b0a7" target="_blank">us-east-1<br>Virginia</a></li>
+        <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-west-1#launchAmi=ami-2bf8a16e" target="_blank">us-west-1<br>N. California</a></li>
+        <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=us-west-2#launchAmi=ami-40189570" target="_blank">us-west-2<br>Oregon</a></li>
+        <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=eu-west-1#launchAmi=ami-f5122b81" target="_blank">eu-west-1<br>Ireland</a></li>
+        <br />
+        <li><a class="region"  href="https://console.aws.amazon.com/ec2/home?region=ap-northeast-1#launchAmi=ami-2cf3422d" target="_blank">ap-northeast-1<br>Tokyo</a></li>
+        <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=ap-southeast-1#launchAmi=ami-56b0f404" target="_blank">ap-southeast-1<br>Singapore</a></li> 
+        <li><a class="region" href="https://console.aws.amazon.com/ec2/home?region=sa-east-1#launchAmi=ami-de6ab5c3" target="_blank">sa-east-1<br>Sao Paulo</a></li>
+        </ul>
+
 
 	    <hgroup>
 	      <div class="deco"></div>
@@ -262,6 +273,12 @@
 	<h2>Frequently Asked Questions (FAQ)</h2>
 	</hgroup>
 
+    <p><b>0. Private bridge or normal bridge?</b><br>
+    If you set up a private bridge, your bridge will not tell the bridge
+    authority that it exists. You will have to manually give out your bridge
+    address to users.
+    </p>
+
         <p><b>1. How much does it cost?</b><br>
 	There is no fee charged by the Tor Project, Inc for you to run a
 	Tor Cloud image. Amazon does, however, charge instances
@@ -273,10 +290,10 @@
 
     <p><b>2. The instance is running, what's next?</b><br>
     You should not have to do anything once the instance is up and
-    running. Tor will start up as a bridge, confirm that it is reachable
-    from the outside, and then tell the bridge authority that it exists.
-    After that, the address for your bridge will be given out to
-    users.</p>
+    running. Tor will start up as a bridge and confirm that it is reachable
+    from the outside. If you have set up a normal bridge, then it will also
+    tell the bridge authority that it exists, and the address for your
+    bridge will be given out to users.</p>
 
     <p><b>3. How do I find the address of my bridge?</b><br>
     To find the address of your bridge, log on to the AWS Management
@@ -327,8 +344,9 @@
         href="http://www.atagar.com/arm/">here</a>.</p>
 
 	<p><b>9. What's in the Tor configuration file?</b><br>
-	The Tor configuration file that the images have been
-	configured with can be found <a href="https://cloud.torproject.org/torrc.txt">here</a>.</p>
+    The Tor configuration file for normal bridges can be found <a
+    href="https://cloud.torproject.org/torrc.txt">here</a>. The configuration
+    file for private bridges also contain <em>PublishServerDescriptor 0</em>. </p>
 	
 	<p><b>10. Will the images automatically download and install package updates?</b><br>
 	Yes, the images have all been configured with the <a href="https://help.ubuntu.com/community/AutomaticSecurityUpdates"><i>unattended-upgrades</i></a> package. This means that your system will automatically download and install updates.</p>
