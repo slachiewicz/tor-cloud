@@ -60,6 +60,9 @@ Unattended-Upgrade::Allowed-Origins {
 // Automatically reboot *WITHOUT CONFIRMATION* if the file
 // /var/run/reboot-required is found after the upgrade
 Unattended-Upgrade::Automatic-Reboot "true";
+
+// Do not cause conffile prompts
+Dpkg::Options { --force-confold; }
 EOF
 
 # Configure iptables to redirect traffic to port 443 to port 9001
