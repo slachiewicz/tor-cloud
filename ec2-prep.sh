@@ -53,8 +53,8 @@ Unattended-Upgrade::Allowed-Origins {
     "Ubuntu lucid";
 	"Ubuntu lucid-security";
 	"Ubuntu lucid-updates";
-	"Tor lucid";
-	"Tor experimental-lucid";
+	"TorProject lucid";
+	"TorProject experimental-lucid";
 };
 
 // Automatically reboot *WITHOUT CONFIRMATION* if the file
