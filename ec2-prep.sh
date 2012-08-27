@@ -230,10 +230,11 @@ aptitude -y install tor tor-geoipdb tor-arm
 echo "Configuring Tor...";
 cp /etc/tor/torrc /etc/tor/torrc.bkp
 
+# Normal bridge
 if [ $CONFIG == "bridge" ]; then
 echo "Configuring Tor as a $CONFIG";
 cat << EOF > $CONFIG_FILE
-# Auto generated public Tor $CONFIG config file
+# Auto generated Tor $CONFIG config file
 
 # A unique handle for your server.
 Nickname ec2$CONFIG$RESERVATION
@@ -267,10 +268,11 @@ echo "Your system has been configured as a Tor bridge, see https://cloud.torproj
 reboot
 fi
 
+# Private bridge
 if [ $CONFIG == "privatebridge" ]; then
 echo "Configuring Tor as a $CONFIG";
 cat << EOF > $CONFIG_FILE
-# Auto generated public Tor $CONFIG config file
+# Auto generated Tor $CONFIG config file
 
 # A unique handle for your server.
 Nickname ec2priv$RESERVATION
@@ -302,6 +304,33 @@ ExitPolicy reject *:*
 EOF
 echo "Done configuring the system, will reboot"
 echo "Your system has been configured as a private Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
+reboot
+fi
+
+# Blocking diagnostics (private bridge and then some)
+if [ $CONFIG == "blockingdiagnostics" ]; then
+echo "Configuring a Tor blocking diagnostics image";
+
+# Configure Tor to run as a private bridge
+cat << EOF > $CONFIG_FILE
+SocksPort 0
+ORPort 443
+ORListenAddress 0.0.0.0:9001
+BridgeRelay 1
+PublishServerDescriptor 0
+Log info file /var/log/tor/info.log
+AccountingStart week 1 10:00
+AccountingMax 10 GB
+ExitPolicy reject *:*
+EOF
+
+# Run tcpdump on boot
+cat << EOF > /etc/rc.local
+#!/bin/sh -e
+sudo screen tcpdump -v -i any -s 0 -w /root/bridge_test.cap
+EOF
+echo "Done configuring the system, will reboot"
+echo "Your system has been configured for blocking diagnostics" > /etc/ec2-prep.sh
 reboot
 fi
 
