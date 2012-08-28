@@ -93,13 +93,13 @@ EOF
 case "$CONFIG" in
    "bridge" ) echo "selecting $CONFIG config...";;
    "privatebridge" ) echo "selecting $CONFIG config...";;
-   "middlerelay" ) echo "selecting $CONFIG config...";;
+   "blockingdiagnostics" ) echo "selecting $CONFIG config...";;
    * )
 echo "You did not select a proper configuration: $CONFIG";
 echo "Please try the following examples: ";
 echo "$0 bridge";
 echo "$0 privatebridge";
-echo "$0 middlerelay";
+echo "$0 blockingdiagnostics";
 exit 2;
     ;;
 esac
