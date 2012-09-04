@@ -49,7 +49,7 @@ fi
 echo ${region}
 echo ${arch}
 
-qurl=https://uec-images.ubuntu.com/query/lucid/server/released.current.txt
+qurl=https://uec-images.ubuntu.com/query/precise/server/released.current.txt
 curl --silent ${qurl} | grep ebs
 ami=$(curl --silent "${qurl}" | awk '-F\t' '$5 == "ebs" && $6 == arch && $7 == region { print $8 }' arch=$arch region=$region )
 aki=$(curl --silent "${qurl}" | awk '-F\t' '$5 == "ebs" && $6 == arch && $7 == region { print $9 }' arch=$arch region=$region )
