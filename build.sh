@@ -20,8 +20,8 @@
 # Tor Cloud is developed and maintained by partnership between
 # ExpressionTech and The Tor Project.
 #
-# Bundle and publish instance of canonical AMI Ubuntu 10.04 LTS (Lucid Lynx),
-# modified to run as a Tor bridge relay, private relay or middle realy on Amazon EC2
+# Bundle and publish instance of Ubuntu modified to run as a Tor bridge
+# on Amazon EC2
 
 # Define your Amazon credentials for ec2-api-tools to function
 export EC2_PRIVATE_KEY=/path/to/pk.cert
@@ -83,7 +83,7 @@ echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
 # Get the files we need
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://cloud-images.ubuntu.com/releases/10.04/release/SHA256SUMS && sudo wget https://cloud-images.ubuntu.com/releases/10.04/release/SHA256SUMS.gpg && sudo wget https://cloud-images.ubuntu.com/releases/10.04/release/ubuntu-10.04-server-cloudimg-i386.tar.gz -O ubuntu-10.04-server-cloudimg-i386.tar.gz"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://cloud-images.ubuntu.com/releases/12.04/release/SHA256SUMS && sudo wget https://cloud-images.ubuntu.com/releases/12.04/release/SHA256SUMS.gpg && sudo wget https://cloud-images.ubuntu.com/releases/12.04/release/ubuntu-12.04-server-cloudimg-i386.tar.gz -O ubuntu-12.04-server-cloudimg-i386.tar.gz"
 
 # Verify the signature
 echo "Get the GPG key"
@@ -96,11 +96,11 @@ echo "Check the return code"
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo grep Good /mnt/verify.txt"
 
 echo "See if the hashes match. If all else fails, lock ourselves out of the instance"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then if [ `grep ubuntu-10.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` != `sha256sum /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` ]; then 'Hash in SHA256SUMS file does not match sha256sum of .tar.gz, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'No good signature in verify.txt, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then if [ `grep ubuntu-12.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` != `sha256sum /mnt/ubuntu-12.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` ]; then 'Hash in SHA256SUMS file does not match sha256sum of .tar.gz, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'No good signature in verify.txt, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
 
 # Set the correct permission for /mnt, extract image and continue the build process
 echo "Verified the signature, continue with the build process"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && tar -Sxvzf /mnt/ubuntu-10.04-server-cloudimg-i386.tar.gz && sudo mkdir /mnt/src /mnt/target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && tar -Sxvzf /mnt/ubuntu-12.04-server-cloudimg-i386.tar.gz && sudo mkdir /mnt/src /mnt/target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
 
 # this is our startup file that loads tor-prep.sh on first boot
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/rc.local -O /mnt/src/etc/rc.local"
@@ -144,7 +144,7 @@ RANDOM=$(echo `</dev/urandom tr -dc A-Za-z0-9 | head -c8`)
 
 # Finally register and publish the image
 echo "Registering and publishing the image..."
-ec2-register --region ${region} --snapshot ${snap} --architecture=i386 --kernel=${aki} --name "Tor-Cloud-EC2-${rel}-${region}-${NOW}-${RANDOM}" --description "Tor Cloud Server - [bridge] - Ubuntu 10.04.3 LTS [Lucid Lynx] - [${region}]"
+ec2-register --region ${region} --snapshot ${snap} --architecture=i386 --kernel=${aki} --name "Tor-Cloud-EC2-${rel}-${region}-${NOW}-${RANDOM}" --description "Tor Cloud Server - [bridge] - Ubuntu 12.04 LTS [Precise Pangolin] - [${region}]"
 
 # cleanup
 ec2-detach-volume --region ${region}  ${vol}
