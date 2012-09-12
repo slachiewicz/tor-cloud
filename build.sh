@@ -83,7 +83,7 @@ echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
 # Get the files we need
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://cloud-images.ubuntu.com/releases/12.04/release/SHA256SUMS && sudo wget https://cloud-images.ubuntu.com/releases/12.04/release/SHA256SUMS.gpg && sudo wget https://cloud-images.ubuntu.com/releases/12.04/release/ubuntu-12.04-server-cloudimg-i386.tar.gz -O ubuntu-12.04-server-cloudimg-i386.tar.gz"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/SHA256SUMS && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/SHA256SUMS.gpg && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/ubuntu-12.04-server-cloudimg-i386.tar.gz -O ubuntu-12.04-server-cloudimg-i386.tar.gz"
 
 # Verify the signature
 echo "Get the GPG key"
