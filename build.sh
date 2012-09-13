@@ -83,24 +83,19 @@ echo "After attaching the volume, sleep for 20 seconds..."
 sleep 20
 
 # Get the files we need
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/SHA256SUMS && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/SHA256SUMS.gpg && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/ubuntu-12.04-server-cloudimg-i386.tar.gz -O ubuntu-12.04-server-cloudimg-i386.tar.gz"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/SHA256SUMS && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/SHA256SUMS.gpg && sudo wget https://cloud-images.ubuntu.com/releases/precise/release/ubuntu-12.04-server-cloudimg-i386.tar.gz"
 
 # Verify the signature
-echo "Get the GPG key"
+echo "Verify the signature"
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo gpg --keyserver keys.gnupg.net --recv-key 7DB87C81"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt ; sudo gpg --verify SHA256SUMS.gpg SHA256SUMS"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "cd /mnt ; sudo sha256sum -c SHA256SUMS 2>&1 | grep OK"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "echo $?"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "1" ]; then echo 'Hash does not match, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
 
-echo "Try to verify the file"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo bash -c 'gpg --verify /mnt/SHA256SUMS.gpg /mnt/SHA256SUMS &> /mnt/verify.txt'"
-
-echo "Check the return code"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo grep Good /mnt/verify.txt"
-
-echo "See if the hashes match. If all else fails, lock ourselves out of the instance"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "if [ `echo $?` -eq "0" ]; then if [ `grep ubuntu-12.04-server-cloudimg-i386.tar.gz /mnt/SHA256SUMS | awk '{print $1}'` != `sha256sum /mnt/ubuntu-12.04-server-cloudimg-i386.tar.gz | awk '{print $1}'` ]; then 'Hash in SHA256SUMS file does not match sha256sum of .tar.gz, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi ; else echo 'No good signature in verify.txt, will lock you out of the instance' ; sudo rm /home/ubuntu/.ssh/authorized_keys ; fi"
-
-# Set the correct permission for /mnt, extract image and continue the build process
+# Continue the build process
 echo "Verified the signature, continue with the build process"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && tar -Sxvzf /mnt/ubuntu-12.04-server-cloudimg-i386.tar.gz && sudo mkdir /mnt/src /mnt/target && sudo mount -o loop,rw /mnt/lucid-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && tar -Sxvzf /mnt/ubuntu-12.04-server-cloudimg-i386.tar.gz && sudo mkdir /mnt/src /mnt/target && sudo mount -o loop,rw /mnt/precise-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
 
 # this is our startup file that loads tor-prep.sh on first boot
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/rc.local -O /mnt/src/etc/rc.local"
@@ -137,18 +132,16 @@ hold=$(ec2-describe-snapshots --region ${region} | grep ${snap}  | awk {'print $
 echo $hold
 done
 
-
 # create NOW and RANDOM variables to be used in the description field of the image
 NOW=$(date +"%m-%d-%Y")
 RANDOM=$(echo `</dev/urandom tr -dc A-Za-z0-9 | head -c8`)
 
 # Finally register and publish the image
 echo "Registering and publishing the image..."
-ec2-register --region ${region} --snapshot ${snap} --architecture=i386 --kernel=${aki} --name "Tor-Cloud-EC2-${rel}-${region}-${NOW}-${RANDOM}" --description "Tor Cloud Server - [bridge] - Ubuntu 12.04 LTS [Precise Pangolin] - [${region}]"
+ec2-register --region ${region} --snapshot ${snap} --architecture=i386 --kernel=${aki} --name "Tor-Cloud-EC2-${rel}-${region}-${NOW}-${RANDOM}" --description "Tor Cloud bridge Ubuntu 12.04 LTS [Precise Pangolin] - [${region}]"
 
 # cleanup
 ec2-detach-volume --region ${region}  ${vol}
 echo "After detaching the volume, but before terminating it, sleep 20 seconds..."
 sleep 20
 ec2-terminate-instances --region ${region}  ${iid}
-
