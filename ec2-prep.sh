@@ -25,7 +25,7 @@ fi
 # Get the latest package updates
 echo "Updating the system..."
 apt-get update
-apt-get -y safe-upgrade
+apt-get -y upgrade
 
 # Configure unattended-upgrades. The system will automatically download,
 # install and configure all packages, and reboot if necessary.
@@ -267,9 +267,3 @@ echo "Done configuring the system, will reboot"
 echo "Your system has been configured for blocking diagnostics" > /etc/ec2-prep.sh
 reboot
 fi
-
-# XXX TODO
-# Generally, we'll want to rm /var/lib/tor/* and remove all state from the system
-#
-# We're done; tell the user and then reboot the system
-#reboot
