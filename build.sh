@@ -96,7 +96,7 @@ ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ub
 
 # Continue the build process
 echo "Verified the signature, continue with the build process"
-ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && tar -Sxvzf /mnt/ubuntu-12.04-server-cloudimg-i386.tar.gz && sudo mkdir /mnt/src /mnt/target && sudo mount -o loop,rw /mnt/precise-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/sdh && sudo mount /dev/sdh /mnt/target"
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i ${sshkey} ubuntu@${host} -q -t "sudo chown ubuntu:ubuntu /mnt && cd /mnt && tar -Sxvzf /mnt/ubuntu-12.04-server-cloudimg-i386.tar.gz && sudo mkdir /mnt/src /mnt/target && sudo mount -o lo    op,rw /mnt/precise-server-cloudimg-i386.img /mnt/src && sudo mkfs.ext4 -F -L cloudimg-rootfs /dev/xvdh && sudo mount /dev/xvdh /mnt/target"
 
 # this is our startup file that loads tor-prep.sh on first boot
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -i  ${sshkey}  ubuntu@${host} -q -v -t "sudo wget https://gitweb.torproject.org/tor-cloud.git/blob_plain/HEAD:/rc.local -O /mnt/src/etc/rc.local"
