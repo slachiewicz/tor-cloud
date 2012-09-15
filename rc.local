@@ -1,4 +1,5 @@
 #!/bin/sh -e
-sudo aptitude -y safe-upgrade
+sudo apt-get -y update
+sudo apt-get -y upgrade
 sudo /etc/ec2-prep.sh type
 exit 0
