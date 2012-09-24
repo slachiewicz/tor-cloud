@@ -1,9 +1,8 @@
 #!/bin/bash -e
-# ec2-prep by: Jacob Appelbaum
-# git://git.torproject.org/ioerror/tor-cloud.git
-# This is the code to run on an Ubuntu machine to prep it as a relay, bridge or
+# Copyright (c) 2011 The Tor Project, Inc
+# git://git.torproject.org/tor-cloud.git
+# Set up an EC2 instance as either an (obfsproxy) bridge or a normal
 # private bridge
-#
 USER="`whoami`";
 DISTRO="`lsb_release -c|cut -f2`";
 SOURCES="/etc/apt/sources.list";
@@ -158,13 +157,13 @@ apt-key add $GPGKEY
 # Install Tor and arm
 echo "Installing Tor...";
 apt-get update
-apt-get -y install tor tor-geoipdb tor-arm deb.torproject.org-keyring
+apt-get -y install tor tor-geoipdb tor-arm deb.torproject.org-keyring obfsproxy
 
 # Configure Tor
 echo "Configuring Tor...";
 cp /etc/tor/torrc /etc/tor/torrc.bkp
 
-# Normal bridge
+# (Obfsproxy) bridge
 if [ $CONFIG == "bridge" ]; then
 echo "Configuring Tor as a $CONFIG";
 cat << EOF > $CONFIG_FILE
@@ -187,6 +186,9 @@ ORListenAddress 0.0.0.0:9001
 # Start Tor as a bridge.
 BridgeRelay 1
 
+# Run obfsproxy
+ServerTransportPlugin obfs2 exec /usr/bin/obfsproxy --managed
+
 # Never send or receive more than 10GB of data per week. The accounting
 # period runs from 10 AM on the 1st day of the week (Monday) to the same
 # day and time of the next week.
@@ -197,8 +199,13 @@ AccountingMax 10 GB
 # so it shouldn't expose the operator to abuse complaints.
 ExitPolicy reject *:*
 EOF
+
+# Edit /var/lib/tor/state and change the obfs port
+/etc/init.d/tor reload
+/etc/init.d/tor stop
+sed -i 's/TransportProxy.*/TransportProxy obfs2 0.0.0.0:52176/' /var/lib/tor/state
 echo "Done configuring the system, will reboot"
-echo "Your system has been configured as a Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
+echo "Your system has been configured as a Tor obfsproxy bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 reboot
 fi
 
