@@ -50,11 +50,11 @@ EOF
 cat << EOF > $UNATTENDED_UPGRADES
 // Automatically upgrade packages from these (origin, archive) pairs
 Unattended-Upgrade::Allowed-Origins {
-    "Ubuntu lucid";
-	"Ubuntu lucid-security";
-	"Ubuntu lucid-updates";
-	"TorProject lucid";
-	"TorProject experimental-lucid";
+    "Ubuntu $DISTRO";
+	"Ubuntu $DISTRO-security";
+	"Ubuntu $DISTRO-updates";
+	"TorProject $DISTRO";
+	"TorProject experimental-$DISTRO";
 };
 
 // Automatically reboot *WITHOUT CONFIRMATION* if the file
