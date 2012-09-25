@@ -203,8 +203,9 @@ EOF
 # Edit /var/lib/tor/state and change the obfs port
 /etc/init.d/tor reload
 /etc/init.d/tor stop
-sleep 30s
 sed -i 's/TransportProxy.*/TransportProxy obfs2 0.0.0.0:52176/' /var/lib/tor/state
+/etc/init.d/tor start
+sleep 30s
 echo "Done configuring the system, will reboot"
 echo "Your system has been configured as a Tor obfsproxy bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 reboot
