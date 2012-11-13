@@ -46,23 +46,12 @@ images in the Amazon EC2 cloud.
 
 3. Generate private keys
 
-    If you have done this before, but can't access the private keys,
-    delete the keys before generating them again (see example below):
-
-      root@tor-build:~# ec2-delete-keypair tor-cloud-us-east-1 --region us-east-1
-
-    Generate private keys for each region that you are going to create
-    images for:
-
-      root@tor-build:~# ec2-add-keypair --region us-east-1 tor-cloud-us-east-1 > keys/tor-cloud-us-east-1.pem
-      root@tor-build:~# ec2-add-keypair --region sa-east-1 tor-cloud-sa-east-1 > keys/tor-cloud-sa-east-1.pem
-      root@tor-build:~# ec2-add-keypair --region us-west-1 tor-cloud-us-west-1 > keys/tor-cloud-us-west-1.pem
-      root@tor-build:~# ec2-add-keypair --region us-west-2 tor-cloud-us-west-2 > keys/tor-cloud-us-west-2.pem
-      root@tor-build:~# ec2-add-keypair --region eu-west-1 tor-cloud-eu-west-1 > keys/tor-cloud-eu-west-1.pem
-      root@tor-build:~# ec2-add-keypair --region ap-northeast-1 tor-cloud-ap-northeast-1 > keys/tor-cloud-ap-northeast-1.pem
-      root@tor-build:~# ec2-add-keypair --region ap-southeast-1 tor-cloud-ap-southeast-1 > keys/tor-cloud-ap-southeast-1.pem
-
-    Give the keys the right set of permissions with 'chmod 600 keys/*'.
+    Log on to the AWS console, choose the region you want to create keys
+    for, click on "Key Pairs" in the menu on the left, and create a key
+    pair. If you are creating a key pair for the region ap-southeast-2,
+    name the key pair tor-cloud-ap-southeast-2. Upload the key pair to
+    the Tor Cloud build server, and give the keys the right set of
+    permissions with 'chmod 600 keys/*'.
 
 4. Create a security group
 
