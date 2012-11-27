@@ -1,5 +1,5 @@
 #!/bin/sh -e
 sudo apt-get -y update
 sudo apt-get -y upgrade
-sudo /etc/ec2-prep.sh type
+sudo bash /etc/ec2-prep.sh type
 exit 0
