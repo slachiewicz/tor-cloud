@@ -18,13 +18,17 @@ ORListenAddress 0.0.0.0:9001
 BridgeRelay 1
 
 # Run obfsproxy
-ServerTransportPlugin obfs2 exec /usr/bin/obfsproxy --managed
+ServerTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy --managed
+ServerTransportListenAddr obfs2 0.0.0.0:52176
+ServerTransportListenAddr obfs3 0.0.0.0:40872
 
 # Never send or receive more than 10GB of data per week. The accounting
 # period runs from 10 AM on the 1st day of the week (Monday) to the same
 # day and time of the next week.
 AccountingStart week 1 10:00
 AccountingMax 10 GB
+BandwidthRate 20KB
+BandwidthBurst 1GB
 
 # Running a bridge relay just passes data to and from the Tor network --
 # so it shouldn't expose the operator to abuse complaints.
