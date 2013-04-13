@@ -187,7 +187,9 @@ ORListenAddress 0.0.0.0:9001
 BridgeRelay 1
 
 # Run obfsproxy
-ServerTransportPlugin obfs2 exec /usr/bin/obfsproxy --managed
+ServerTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy --managed
+ServerTransportListenAddr obfs2 0.0.0.0:52176
+ServerTransportListenAddr obfs3 0.0.0.0:40872
 
 # Never send or receive more than 10GB of data per week. The accounting
 # period runs from 10 AM on the 1st day of the week (Monday) to the same
@@ -200,14 +202,6 @@ AccountingMax 10 GB
 ExitPolicy reject *:*
 EOF
 
-# Edit /var/lib/tor/state and change the obfs port
-/etc/init.d/tor reload
-sleep 30s
-/etc/init.d/tor stop
-sleep 30s
-sed -i 's/TransportProxy.*/TransportProxy obfs2 0.0.0.0:52176/' /var/lib/tor/state
-/etc/init.d/tor start
-sleep 30s
 echo "Done configuring the system, will reboot"
 echo "Your system has been configured as a Tor obfsproxy bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 reboot
@@ -236,7 +230,9 @@ ORListenAddress 0.0.0.0:9001
 # Start Tor as a private obfsproxy bridge
 BridgeRelay 1
 PublishServerDescriptor 0
-ServerTransportPlugin obfs2 exec /usr/bin/obfsproxy --managed
+ServerTransportPlugin obfs2,obfs3 exec /usr/bin/obfsproxy --managed
+ServerTransportListenAddr obfs2 0.0.0.0:52176
+ServerTransportListenAddr obfs3 0.0.0.0:40872
 
 # Never send or receive more than 10GB of data per week. The accounting
 # period runs from 10 AM on the 1st day of the week (Monday) to the same
@@ -250,13 +246,6 @@ ExitPolicy reject *:*
 EOF
 
 # Edit /var/lib/tor/state and change the obfs port
-/etc/init.d/tor reload
-sleep 30s
-/etc/init.d/tor stop
-sleep 30s
-sed -i 's/TransportProxy.*/TransportProxy obfs2 0.0.0.0:52176/' /var/lib/tor/state
-/etc/init.d/tor start
-sleep 30s
 echo "Done configuring the system, will reboot"
 echo "Your system has been configured as a private obfsproxy Tor bridge, see https://cloud.torproject.org/ for more info" > /etc/ec2-prep.sh
 reboot
