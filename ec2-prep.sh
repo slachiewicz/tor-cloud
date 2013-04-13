@@ -196,6 +196,8 @@ ServerTransportListenAddr obfs3 0.0.0.0:40872
 # day and time of the next week.
 AccountingStart week 1 10:00
 AccountingMax 10 GB
+BandwidthRate 20KB
+BandwidthBurst 1GB
 
 # Running a bridge relay just passes data to and from the Tor network --
 # so it shouldn't expose the operator to abuse complaints.
@@ -239,6 +241,8 @@ ServerTransportListenAddr obfs3 0.0.0.0:40872
 # day and time of the next week.
 AccountingStart week 1 10:00
 AccountingMax 10 GB
+BandwidthRate 20KB
+BandwidthBurst 1GB
 
 # Running a bridge relay just passes data to and from the Tor network --
 # so it shouldn't expose the operator to abuse complaints.
